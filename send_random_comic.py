@@ -3,7 +3,6 @@ from random import randint
 import requests
 import telegram
 from dotenv import load_dotenv
-import argparse
 
 
 def download_random_comic():
