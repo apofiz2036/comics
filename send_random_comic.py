@@ -21,10 +21,10 @@ def download_random_comic():
     return comic['alt']
 
 
-def send_comic(id, telegram_bot, image_path):
+def send_comic(chat_id, telegram_bot, image_path):
     with open(image_path, 'rb') as file:
         telegram_bot.send_document(
-            chat_id=id,
+            chat_id=chat_id,
             document=file
         )
 
@@ -36,22 +36,10 @@ if __name__ == '__main__':
 
     os.makedirs('files', exist_ok=True)
     image_path = os.path.join('files', 'random_comic.png')
-
-    parser = argparse.ArgumentParser(
-        description='Скачивает случайный комикс и отправляет его в телеграмм'
-    )
-
-    parser.add_argument(
-        '--id',
-        type=str,
-        default='@apofiz_comics',
-        help='Id чата, по умолчанию "@space_photo_Apofiz"'
-    )
-
-    args = parser.parse_args()
+    chat_id = os.environ['TELEGRAM_CHAT_ID']
 
     try:
         comic_alt = download_random_comic()
-        send_comic(id, telegram_bot, image_path, args.id)
+        send_comic(chat_id, telegram_bot, image_path, )
     finally:
-        os.remove('files/random_comic.png')
+        os.remove(image_path)
